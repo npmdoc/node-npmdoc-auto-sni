@@ -1,0 +1,126 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/DylanPiercey/auto-sni">auto-sni (v2.1.1)</a>
+</h1>
+<h4>Automatically generate tls credentials using letsencrypt.</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.auto-sni">module auto-sni</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.auto-sni.auto-sni">
+            function <span class="apidocSignatureSpan"></span>auto-sni
+            <span class="apidocSignatureSpan">(opts, app)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.auto-sni" id="apidoc.module.auto-sni">module auto-sni</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.auto-sni.auto-sni" id="apidoc.element.auto-sni.auto-sni">
+        function <span class="apidocSignatureSpan"></span>auto-sni
+        <span class="apidocSignatureSpan">(opts, app)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function createServer(opts, app) {
+  opts = opts || {}
+  app = app || noop
+  var handler = null
+  var domains = opts.domains || []
+  var ports = opts.ports = opts.ports || {}
+  if (!('http' in ports)) ports.http = 80
+  if (!('https' in ports)) ports.https = 443
+  if (!opts.email) throw new TypeError('AutoSNI: Email is required.')
+  if (!opts.agreeTos) throw new TypeError('AutoSNI: Must agree to LE TOS.')
+  if (!domains.length) throw new TypeError('AutoSNI: Domains option must be a non-empty array.')
+  if (typeof app === 'function') {
+    // Allow passing in handler function directly.
+    handler = app
+  } else if (typeof app.emit === 'function') {
+    // Allow passing in another node server (forwards requests).
+    handler = function (req, res) {
+      app.emit('request', req, res)
+    }
+  } else {
+    throw new TypeError('AutoSNI: Invalid app provided.')
+  }
+
+  return LE.create({
+    app: handler,
+    debug: opts.debug,
+    email: opts.email,
+    agreeTos: opts.agreeTos,
+    server: opts.debug ? 'staging' : 'production',
+    configDir: opts.dir || DEFAULT_DIR,
+    approveDomains: opts.domains
+  }).listen(opts.ports.http, opts.ports.https)
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
